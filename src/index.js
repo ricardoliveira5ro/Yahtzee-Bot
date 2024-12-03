@@ -38,7 +38,7 @@ client.on('messageCreate', async (message) => {
     if (!command) return;
 
     try {
-        await command.execute(message, args, message.author);
+        await command.execute(message, args);
     } catch (error) {
         console.error(error);
         message.reply("There was an error trying to execute that command!");
@@ -49,14 +49,14 @@ client.login(process.env.token);
 
 
 // Dummy Server to bypass Koyeb Health Check on Exposed ports
-const http = require('http');
+// const http = require('http');
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Bot is running\n');
-});
+// const server = http.createServer((req, res) => {
+//     res.writeHead(200, { 'Content-Type': 'text/plain' });
+//     res.end('Bot is running\n');
+// });
 
-const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
-    console.log(`Health check server is running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 8000;
+// server.listen(PORT, () => {
+//     console.log(`Health check server is running on port ${PORT}`);
+// });
