@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "jest"
   },
   "author": "Ricardo Oliveira <ricardoliveira5ro@gmail.com>",
@@ -21,6 +23,7 @@
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7"
   }
 }
