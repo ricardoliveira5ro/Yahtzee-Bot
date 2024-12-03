@@ -49,14 +49,14 @@ client.login(process.env.token);
 
 
 // Dummy Server to bypass Koyeb Health Check on Exposed ports
-// const http = require('http');
+const http = require('http');
 
-// const server = http.createServer((req, res) => {
-//     res.writeHead(200, { 'Content-Type': 'text/plain' });
-//     res.end('Bot is running\n');
-// });
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Bot is running\n');
+});
 
-// const PORT = process.env.PORT || 8000;
-// server.listen(PORT, () => {
-//     console.log(`Health check server is running on port ${PORT}`);
-// });
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+    console.log(`Health check server is running on port ${PORT}`);
+});
