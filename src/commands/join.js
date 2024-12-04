@@ -1,5 +1,5 @@
 const { messageEmbed } = require("../messages/board");
-const { onGoingGameMessage, noOpponentSelectedMessage, opponentDoesNotExists, noGameStartedMessage, fullPartyMessage } = require("../messages/error");
+const { onGoingGameMessage, noOpponentSelectedMessage, opponentDoesNotExistsMessage, noGameStartedMessage, fullPartyMessage } = require("../messages/error");
 
 module.exports = {
     name: "join",
@@ -17,7 +17,7 @@ module.exports = {
 
         const opponent = message.channel.members.find(m => m.user.username === args[0])
         if (!opponent) {
-            message.reply({ embeds: [opponentDoesNotExists] });
+            message.reply({ embeds: [opponentDoesNotExistsMessage] });
             return;
         }
 
