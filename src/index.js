@@ -27,6 +27,7 @@ for (const file of commandFiles) {
 }
 
 const COMMAND_PREFIX = '!';
+let games = [];
 
 client.on('messageCreate', async (message) => {
     if (!message.content.startsWith(COMMAND_PREFIX) || message.author.bot) return;
@@ -38,7 +39,7 @@ client.on('messageCreate', async (message) => {
     if (!command) return;
 
     try {
-        await command.execute(message, args);
+        games = await command.execute(message, args, games) || games;
     } catch (error) {
         console.error(error);
         message.reply("There was an error trying to execute that command!");
