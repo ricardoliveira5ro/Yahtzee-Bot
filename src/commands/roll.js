@@ -1,5 +1,6 @@
+const { messageEmbed } = require("../messages/board");
+const { showRollingDice } = require("../messages/dice");
 const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft } = require("../messages/error");
-
 
 module.exports = {
     name: "roll",
@@ -31,6 +32,13 @@ module.exports = {
 
 
         games[index].rollsLeft--;
+
+        // Drawing dice
+        let embed = messageEmbed(games[index]);
+        embed.addFields({ name: '\u200B', value: '\u200B' }) // Empty line
+        embed.addFields({ name: '\u200B', value: 'Rolled Dice:' })
+        embed.addFields(showRollingDice())
+        message.reply({ embeds: [embed] });
 
         return games;
     }
