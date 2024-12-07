@@ -1,5 +1,5 @@
 const { messageEmbed } = require("../messages/board");
-const { showRollingDice } = require("../messages/dice");
+const { showRolledDice } = require("../messages/dice");
 const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft } = require("../messages/error");
 
 module.exports = {
@@ -33,11 +33,17 @@ module.exports = {
 
         games[index].rollsLeft--;
 
+        // Randomize dice
+        games[index].rolledDice = [];
+        for (let i = 0; i < (5 - games[index].lockedDice); i++) {
+            games[index].rolledDice.push(Math.floor(Math.random() * 6) + 1)
+        }
+
         // Drawing dice
         let embed = messageEmbed(games[index]);
         embed.addFields({ name: '\u200B', value: '\u200B' }) // Empty line
         embed.addFields({ name: '\u200B', value: 'Rolled Dice:' })
-        embed.addFields(showRollingDice())
+        embed.addFields(showRolledDice(games[index].rolledDice))
         message.reply({ embeds: [embed] });
 
         return games;
