@@ -1,16 +1,10 @@
 const { messageEmbed } = require("../messages/board");
 const { showDice } = require("../messages/dice");
-const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft } = require("../messages/error");
+const { rollBeforeLock } = require("../messages/error");
 
 module.exports = {
-    name: "roll",
+    name: "lock",
     async execute(message, args, games) {
-    
-        if (args[0]) {
-            message.reply({ embeds: [tooManyArgumentsMessage] });
-            return;
-        }
-
         const index = games.findIndex(game => game.player1.id === message.author.id || game.player2.id === message.author.id)
         if (index === -1) {
             message.reply({ embeds: [noGameStartedMessage] });
@@ -25,18 +19,9 @@ module.exports = {
             return;
         }
 
-        if (games[index].rollsLeft === 0) {
-            message.reply({ embeds: [noRollsLeft] });
+        if (games[index].rollsLeft === 3) {
+            message.reply({ embeds: [rollBeforeLock] });
             return;
-        }
-
-
-        games[index].rollsLeft--;
-
-        // Randomize dice
-        games[index].rolledDice = [];
-        for (let i = 0; i < (5 - games[index].lockedDice); i++) {
-            games[index].rolledDice.push(Math.floor(Math.random() * 6) + 1)
         }
 
         // Drawing dice
@@ -44,8 +29,10 @@ module.exports = {
         embed.addFields({ name: '\u200B', value: '\u200B' }) // Empty line
         embed.addFields({ name: '\u200B', value: 'Rolled Dice:' })
         embed.addFields(showDice(games[index].rolledDice))
+        embed.addFields({ name: '\u200B', value: 'Locked Dice:' })
+        embed.addFields(showDice(games[index].lockedDice))
         message.reply({ embeds: [embed] });
 
         return games;
     }
-};
+}

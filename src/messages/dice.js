@@ -9,15 +9,12 @@ const diceFormats = {
     6: dice_6,
 };
 
-const showRolledDice = (dice) => {
+const showDice = (dice) => {
     let diceArr = [];
     dice.forEach(d => diceArr.push({ name: diceFormats[d], value: '\u200B', inline: true }) )
-    
+
     return diceArr;
 }
 
-const showLockedDice = () => {
 
-}
-
-module.exports = { showRolledDice, showLockedDice };
+module.exports = { showDice };
