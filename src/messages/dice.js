@@ -16,5 +16,14 @@ const showDice = (dice) => {
     return diceArr;
 }
 
+const showRolledAndLockedDice = (embed, rolledDice, lockedDice) => {
+    embed.addFields({ name: '\u200B', value: '\u200B' }) // Empty line
+    embed.addFields({ name: '\u200B', value: 'Rolled Dice:' })
+    embed.addFields(showDice(rolledDice))
+    embed.addFields({ name: '\u200B', value: 'Locked Dice:' })
+    embed.addFields(showDice(lockedDice))
 
-module.exports = { showDice };
+    return embed;
+}
+
+module.exports = { showDice, showRolledAndLockedDice };
