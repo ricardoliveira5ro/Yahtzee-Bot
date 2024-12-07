@@ -26,7 +26,9 @@ module.exports = {
                 player2: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
             },
             playsCount: 0,
-            rollsLeft: 3 //By turn
+            rollsLeft: 3, //By turn
+            rolledDice: [],
+            lockedDice: []
         }
 
         games.push(startingPointGame)
