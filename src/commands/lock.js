@@ -1,6 +1,6 @@
 const { messageEmbed } = require("../messages/board");
 const { showRolledAndLockedDice } = require("../messages/dice");
-const { rollBeforeLock } = require("../messages/error");
+const { rollBeforeLock, wrongLockDice } = require("../messages/error");
 
 module.exports = {
     name: "lock",
@@ -23,6 +23,33 @@ module.exports = {
             message.reply({ embeds: [rollBeforeLock] });
             return;
         }
+
+        // Reset rolled and locked dice
+        if (!args[0]) {
+            const tmpLocked = games[index].lockedDice;
+            games[index].lockedDice = [];
+            games[index].rolledDice.push(...tmpLocked);
+        }
+
+        // Remove duplicates and sort indexes
+        let diceList = args.filter((item, index) => args.indexOf(item) === index);
+        diceList = diceList.map(Number).sort((a, b) => b - a);
+
+        // Check whether dice is valid or not
+        for (let diceIndex of diceList) {
+            if (isNaN(diceIndex) || !Number.isInteger(Number(diceIndex)) || Number(diceIndex) < 1 || games[index].rolledDice.length < Number(diceIndex)) {
+                message.reply({ embeds: [wrongLockDice] });
+                return;
+            }
+        }
+
+        diceList.forEach(diceIndex => {
+            games[index].lockedDice.push(games[index].rolledDice[diceIndex - 1]);
+            games[index].rolledDice.splice(diceIndex - 1, 1);
+        });
+
+        // Re-order locked dice
+        games[index].lockedDice = games[index].lockedDice.sort((a, b) => a - b);
 
         // Drawing dice
         let embed = messageEmbed(games[index]);
