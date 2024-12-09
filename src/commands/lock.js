@@ -51,6 +51,13 @@ module.exports = {
         // Re-order locked dice
         games[index].lockedDice = games[index].lockedDice.sort((a, b) => a - b);
 
+        // Preview results
+        const dice = [...games[index].rolledDice, ...games[index].lockedDice]
+        if (isPlayer1Turn)
+            games[index].previews.player1 = getPreviews(games[index].scores.player1, dice)
+        else
+            games[index].previews.player2 = getPreviews(games[index].scores.player2, dice)
+
         // Drawing dice
         let embed = messageEmbed(games[index]);
         embed = showRolledAndLockedDice(embed, games[index].rolledDice, games[index].lockedDice)
