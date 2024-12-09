@@ -25,6 +25,10 @@ module.exports = {
                 player1: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
                 player2: [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
             },
+            previews: {
+                player1: [],
+                player2: [],
+            },
             playsCount: 0,
             rollsLeft: 3, //By turn
             rolledDice: [],

@@ -1,3 +1,4 @@
+const { getPreviews } = require("../functions/scoring");
 const { messageEmbed } = require("../messages/board");
 const { showRolledAndLockedDice } = require("../messages/dice");
 const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft } = require("../messages/error");
@@ -17,7 +18,7 @@ module.exports = {
             return;
         }
 
-        const isPlayer1Turn = games[index].playsCount & 1 == 1;
+        const isPlayer1Turn = games[index].playsCount % 2 == 0;
         if ((isPlayer1Turn && message.author.id !== games[index].player1.id) ||
             (!isPlayer1Turn && message.author.id !== games[index].player2.id)
         ) {
@@ -35,9 +36,14 @@ module.exports = {
 
         // Randomize dice
         games[index].rolledDice = [];
-        for (let i = 0; i < (5 - games[index].lockedDice); i++) {
+        for (let i = 0; i < (5 - games[index].lockedDice.length); i++) {
             games[index].rolledDice.push(Math.floor(Math.random() * 6) + 1)
         }
+
+        // Preview results
+        const dice = [...games[index].rolledDice, ...games[index].lockedDice]
+        const targetPlayer = isPlayer1Turn ? 'player1' : 'player2';
+        games[index].previews[targetPlayer] = getPreviews(games[index].scores[targetPlayer], dice);
 
         // Drawing dice
         let embed = messageEmbed(games[index]);

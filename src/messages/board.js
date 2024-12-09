@@ -6,10 +6,10 @@ const axes = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus
                 "Three of a Kind", "Four of a Kind", "Full House", 
                 "Small Straight", "Large Straight", "Chance", "Yahtzee", "SCORE"]
 
-const fillColumn = (values) => {
+const fillColumn = (scores, previews) => {
     let columnString = '';
 
-    values.map((value, index) => {
+    scores.map((value, index) => {
         // Line separator
         if (index === 6 || index === 8 || index === 15) {
 
@@ -19,10 +19,13 @@ const fillColumn = (values) => {
                 columnString += '-'.repeat(longestNicknameLength + 1) + '\n'
         }
 
-        if (value === -1)
-            columnString += '\u200B\n'
-        else
+        if (value === -1) {
+            (previews.length === 0 || previews[index] === -1) ? columnString += '\u200B\n' : 
+                                                                columnString += `🎲 _${previews[index]}_\u200B\n`
+        }
+        else {
             columnString += value + '\n'
+        }
     })
 
     return columnString;
@@ -35,8 +38,8 @@ const messageEmbed = (game) => {
         .setColor("Yellow")
         .addFields(
             { name: '\u200B', value: fillColumn(axes), inline: true },
-            { name: game?.player1?.nickname || 'P1', value: fillColumn(game?.scores?.player1), inline: true },
-            { name: game?.player2?.nickname || 'P2', value: fillColumn(game?.scores?.player2), inline: true }
+            { name: game?.player1?.nickname || 'P1', value: fillColumn(game?.scores?.player1, game?.previews?.player1), inline: true },
+            { name: game?.player2?.nickname || 'P2', value: fillColumn(game?.scores?.player2, game?.previews?.player2), inline: true }
         )
     ;
 }
