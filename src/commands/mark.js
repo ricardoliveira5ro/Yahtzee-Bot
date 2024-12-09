@@ -1,17 +1,10 @@
 const { getPreviews } = require("../functions/scoring");
 const { messageEmbed } = require("../messages/board");
-const { showRolledAndLockedDice } = require("../messages/dice");
-const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft, tooManyArgumentsMessage } = require("../messages/error");
+const { noMarkMessage, noGameStartedMessage, waitForYourTurnMessage, rollBeforeLock } = require("../messages/error");
 
 module.exports = {
-    name: "roll",
+    name: "mark",
     async execute(message, args, games) {
-    
-        if (args[0]) {
-            message.reply({ embeds: [tooManyArgumentsMessage] });
-            return;
-        }
-
         const index = games.findIndex(game => game.player1.id === message.author.id || game.player2.id === message.author.id)
         if (index === -1) {
             message.reply({ embeds: [noGameStartedMessage] });
@@ -26,31 +19,39 @@ module.exports = {
             return;
         }
 
-        if (games[index].rollsLeft === 0) {
-            message.reply({ embeds: [noRollsLeft] });
+        if (games[index].rollsLeft === 3) {
+            message.reply({ embeds: [rollBeforeLock] });
+            return;
+        }
+
+        if (!args[0]) {
+            message.reply({ embeds: [noMarkMessage] });
             return;
         }
 
 
-        games[index].rollsLeft--;
-
-        // Randomize dice
-        games[index].rolledDice = [];
-        for (let i = 0; i < (5 - games[index].lockedDice.length); i++) {
-            games[index].rolledDice.push(Math.floor(Math.random() * 6) + 1)
-        }
-
-        // Preview results
         const dice = [...games[index].rolledDice, ...games[index].lockedDice]
         const targetPlayer = isPlayer1Turn ? 'player1' : 'player2';
-        games[index].previews[targetPlayer] = getPreviews(games[index].scores[targetPlayer], dice);
+        const previews = getPreviews(games[index].scores[targetPlayer], dice);
+
+        switch (args[0].toLowerCase()) {
+            case "ones":
+                games[index].scores[targetPlayer][0] = previews[0];
+                break;
+        }
+
+        // Reset rolled, locked and previews
+        games[index].previews[targetPlayer] = [];
+        games[index].rolledDice = [];
+        games[index].lockedDice = [];
+
+        // Continue game flow
+        games[index].rollsLeft = 3
+        games[index].playsCount++
 
         // Drawing dice
         let embed = messageEmbed(games[index]);
-        embed = showRolledAndLockedDice(embed, games[index].rolledDice, games[index].lockedDice)
 
         message.reply({ embeds: [embed] });
-
-        return games;
     }
-};
+}

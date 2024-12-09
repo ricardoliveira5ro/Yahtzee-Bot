@@ -19,6 +19,7 @@ const waitForYourTurnMessage = botMessage(0xFF0000, 'Not your turn', 'Please wai
 const noRollsLeft = botMessage(0xFF0000, 'No more rolls left', 'You have no more rolls left, please select the result to finish you turn by i.e. `!result [ones]`');
 const rollBeforeLock = botMessage(0xFF0000, 'Roll before lock', 'Before locking any dice you need to roll first, use `!roll`');
 const wrongLockDice = botMessage(0xFF0000, 'Wrong lock input', 'The bot could not recognize which dice you want to lock, use `!lock [dice position]`. You can also lock multiple dice at once by specifying each position, i.e. `!lock 1 4 5`');
+const noMarkMessage = botMessage(0xFF0000, 'No mark chosen', 'The bot could not recognize which spot you want to mark to finish your turn, use !mark [spot]. You can find all the names at the board, but use them without spaces in between, i.e Ones -> Ones / Three of a Kind -> ThreeOfAKind. The spot name is not case sensitive, so you right the way you want');
 
 module.exports = {
     tooManyArgumentsMessage, 
@@ -30,5 +31,6 @@ module.exports = {
     waitForYourTurnMessage,
     noRollsLeft,
     rollBeforeLock,
-    wrongLockDice
+    wrongLockDice,
+    noMarkMessage
 };
