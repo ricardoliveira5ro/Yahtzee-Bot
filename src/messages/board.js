@@ -21,7 +21,7 @@ const fillColumn = (scores, previews) => {
 
         if (value === -1) {
             (previews.length === 0 || previews[index] === -1) ? columnString += '\u200B\n' : 
-                                    columnString += previews[index] + '\u200B\n'
+                                                                columnString += `🎲 _${previews[index]}_\u200B\n`
         }
         else {
             columnString += value + '\n'
