@@ -1,7 +1,7 @@
 const { getPreviews } = require("../functions/scoring");
 const { messageEmbed } = require("../messages/board");
 const { showRolledAndLockedDice } = require("../messages/dice");
-const { rollBeforeLock, wrongLockDice } = require("../messages/error");
+const { rollBeforeLock, wrongLockDice, noGameStartedMessage, waitForYourTurnMessage } = require("../messages/error");
 
 module.exports = {
     name: "lock",
