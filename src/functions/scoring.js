@@ -5,12 +5,9 @@ const getPreviews = (currentScore, rolledDice) => {
     for (let i = 0; i < 6; i++) {
         previews.push(currentScore[i] === -1 ? rolledDice.filter(d => d === (i + 1)).length * (i + 1) : currentScore[i])
     }
-    
-    const sum = calculateSum(currentScore, rolledDice)
-    const bonus = sum === -1 ? -1
-                            : sum >= 63 ? 35 : 0
-    previews.push(sum) // Sum
-    previews.push(bonus) // Bonus
+
+    previews.push(-1) // Sum
+    previews.push(-1) // Bonus
 
     previews.push(currentScore[8] === -1 ? calculateAKind(rolledDice, 3) : currentScore[8]) // Three of a Kind
     previews.push(currentScore[9] === -1 ? calculateAKind(rolledDice, 4) : currentScore[9]) // Four of a Kind
@@ -24,21 +21,6 @@ const getPreviews = (currentScore, rolledDice) => {
 
     return previews;
 };
-
-const calculateSum = (currentScore, rolledDice) => {
-    const upperSection = [...currentScore].splice(0, 6);
-
-    if (upperSection.filter(value => value === -1).length >= 2)
-        return -1;
-
-    let sum = 0;
-    for (let i = 0; i < upperSection.length; i++) {
-        sum += (upperSection[i] === -1) ? rolledDice.filter(dice => dice === i + 1).length * (i + 1)
-                                        : value;
-    }
-
-    return sum;
-}
 
 const calculateAKind = (dice, amount) => {
     const counts = {};
