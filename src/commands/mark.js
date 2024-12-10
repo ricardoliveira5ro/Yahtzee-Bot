@@ -60,6 +60,34 @@ module.exports = {
                 games[index].scores[targetPlayer][5] === -1 ? games[index].scores[targetPlayer][5] = previews[5]
                                                             : alreadyMarked = true
                 break;
+            case "threeofakind":
+                games[index].scores[targetPlayer][8] === -1 ? games[index].scores[targetPlayer][8] = previews[8]
+                                                            : alreadyMarked = true
+                break;
+            case "fourofakind":
+                games[index].scores[targetPlayer][9] === -1 ? games[index].scores[targetPlayer][9] = previews[9]
+                                                            : alreadyMarked = true
+                break;
+            case "fullhouse":
+                games[index].scores[targetPlayer][10] === -1 ? games[index].scores[targetPlayer][10] = previews[10]
+                                                            : alreadyMarked = true
+                break;
+            case "smallstraight":
+                games[index].scores[targetPlayer][11] === -1 ? games[index].scores[targetPlayer][11] = previews[11]
+                                                            : alreadyMarked = true
+                break;
+            case "largestraight":
+                games[index].scores[targetPlayer][12] === -1 ? games[index].scores[targetPlayer][12] = previews[12]
+                                                            : alreadyMarked = true
+                break;
+            case "chance":
+                games[index].scores[targetPlayer][13] === -1 ? games[index].scores[targetPlayer][13] = previews[13]
+                                                            : alreadyMarked = true
+                break;
+            case "yahtzee":
+                games[index].scores[targetPlayer][14] === -1 ? games[index].scores[targetPlayer][14] = previews[14]
+                                                            : alreadyMarked = true
+                break;
             default:
                 message.reply({ embeds: [wrongMarkMessage] });
                 return;
@@ -94,13 +122,30 @@ module.exports = {
         games[index].rollsLeft = 3
         games[index].playsCount++
 
-        // End game condition
-        // if (games[index].playsCount === 26) {
-
-        // }
-
-        // Drawing dice
         let embed = messageEmbed(games[index]);
+        // End game condition
+        if (games[index].playsCount === 26) {
+            const finalScoreP1 = games[index].scores.player1[15]
+            const finalScoreP2 = games[index].scores.player2[15]
+            let winnerName;
+
+            let winnerField;
+            if (finalScoreP1 === finalScoreP2) {
+                winnerField = { name: `⚖️ Tie ⚖️`, value: '\u200B', inline: true }
+            }
+            else {
+                winnerName = finalScoreP1 > finalScoreP2 ? games[index].player1.nickname : games[index].player2.nickname
+                winnerField = { name: `🏆 ${winnerName} 🏆`, value: '\u200B', inline: true }
+            }
+
+            embed.addFields(
+                { name: '\u200B', value: '\u200B' },
+                winnerField
+            )
+            message.channel.send({ embeds: [embed] })
+            return;
+        }
+
         message.reply({ embeds: [embed] });
     }
 }
