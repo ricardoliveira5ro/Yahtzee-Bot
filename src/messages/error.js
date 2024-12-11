@@ -23,6 +23,7 @@ const wrongMarkMessage = botMessage(0xFF0000, 'Wrong mark input', 'The bot could
 const alreadyMarkedMessage = botMessage(0xFF0000, 'This spot is already marked', 'Please trying again in an available spot, the 🎲 emoji represents a result preview, an available spot');
 
 module.exports = {
+    botMessage,
     tooManyArgumentsMessage, 
     onGoingGameMessage,
     noOpponentSelectedMessage,

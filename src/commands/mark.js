@@ -151,9 +151,13 @@ module.exports = {
                 winnerField
             )
             message.channel.send({ embeds: [embed] })
-            return;
+
+            games.splice(index, 1)
+            return games
         }
 
         message.reply({ embeds: [embed] });
+
+        return games;
     }
 }

@@ -11,6 +11,7 @@ This Discord bot introduces the classic game of Yahtzee to your server! Players 
 
 * `!help` : Displays instructions on how to play the game
 * `!start` : Starts a new Yahtzee game
+* `!stop` : Stops an ongoing game
 * `!join [username]` : Lets a second player join an existing game
     * *username* is the opponent you want to challenge. Note that this must be the unique Discord username, not the nickname in the server
 * `!roll` : Rolls the dice for your turn
