@@ -1,9 +1,9 @@
-const { tooManyArgumentsMessage, noGameStartedMessage, surrenderGameMessage } = require("../messages/error");
+const { tooManyArgumentsMessage, noGameStartedMessage, botMessage } = require("../messages/error");
 
 module.exports = {
     name: "stop",
     async execute(message, args, games) {
-        
+
         if (args[0]) {
             message.reply({ embeds: [tooManyArgumentsMessage] });
             return;
