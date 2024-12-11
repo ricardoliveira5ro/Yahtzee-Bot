@@ -106,6 +106,14 @@ module.exports = {
             games[index].scores[targetPlayer][7] = sum >= 63 ? 35 : 0
         }
 
+        // Multiple Yahtzee
+        if (rolledDice.filter(d => d === rolledDice[0]).length === 5 && 
+            games[index].scores[targetPlayer][14] !== 0 && 
+            games[index].scores[targetPlayer][14] !== -1)
+        {
+            games[index].scores[targetPlayer][14] += 100
+        }
+
         // Final Score
         const finalScoreArr = games[index].scores[targetPlayer].slice(0, 15)
         if (!finalScoreArr.includes(-1)) {
