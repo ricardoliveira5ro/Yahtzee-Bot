@@ -1,6 +1,6 @@
 const { getPreviews } = require("../functions/scoring");
 const { messageEmbed } = require("../messages/board");
-const { wrongMarkMessage, noGameStartedMessage, waitForYourTurnMessage, rollBeforeLock, alreadyMarkedMessage } = require("../messages/error");
+const { wrongMarkMessage, noGameStartedMessage, waitForYourTurnMessage, rollBeforeLockMessage, alreadyMarkedMessage, waitingForOpponentMessage } = require("../messages/error");
 
 module.exports = {
     name: "mark",
@@ -8,6 +8,11 @@ module.exports = {
         const index = games.findIndex(game => game.player1.id === message.author.id || game.player2.id === message.author.id)
         if (index === -1) {
             message.reply({ embeds: [noGameStartedMessage] });
+            return;
+        }
+
+        if (!games[index].player2) {
+            message.reply({ embeds: [waitingForOpponentMessage] });
             return;
         }
 
@@ -20,7 +25,7 @@ module.exports = {
         }
 
         if (games[index].rollsLeft === 3) {
-            message.reply({ embeds: [rollBeforeLock] });
+            message.reply({ embeds: [rollBeforeLockMessage] });
             return;
         }
 
