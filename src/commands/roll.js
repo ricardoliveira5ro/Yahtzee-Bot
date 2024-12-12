@@ -1,7 +1,7 @@
 const { getPreviews } = require("../functions/scoring");
 const { messageEmbed } = require("../messages/board");
 const { showRolledAndLockedDice } = require("../messages/dice");
-const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeft, tooManyArgumentsMessage } = require("../messages/error");
+const { noGameStartedMessage, waitForYourTurnMessage, noRollsLeftMessage, tooManyArgumentsMessage, waitingForOpponentMessage } = require("../messages/error");
 
 module.exports = {
     name: "roll",
@@ -18,6 +18,11 @@ module.exports = {
             return;
         }
 
+        if (!games[index].player2) {
+            message.reply({ embeds: [waitingForOpponentMessage] });
+            return;
+        }
+
         const isPlayer1Turn = games[index].playsCount % 2 == 0;
         if ((isPlayer1Turn && message.author.id !== games[index].player1.id) ||
             (!isPlayer1Turn && message.author.id !== games[index].player2.id)
@@ -27,7 +32,7 @@ module.exports = {
         }
 
         if (games[index].rollsLeft === 0) {
-            message.reply({ embeds: [noRollsLeft] });
+            message.reply({ embeds: [noRollsLeftMessage] });
             return;
         }
 
