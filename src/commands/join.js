@@ -34,7 +34,7 @@ module.exports = {
         
         games[gameIndex].player2 = {
             id: message.author.id,
-            nickname: message.channel.members.find(m => m.id === message.author.id).nickname
+            nickname: message.channel.members.find(m => m.id === message.author.id).nickname || message.author.globalName
         };
 
         message.reply({ embeds: [messageEmbed(games[gameIndex])] });
