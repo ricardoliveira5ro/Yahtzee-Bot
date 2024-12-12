@@ -18,7 +18,7 @@ module.exports = {
         const startingPointGame = {
             player1: {
                 id: message.author.id,
-                nickname: message.channel.members.find(m => m.id === message.author.id).nickname
+                nickname: message.channel.members.find(m => m.id === message.author.id).nickname || message.author.globalName
             },
             player2: null,
             scores: {
