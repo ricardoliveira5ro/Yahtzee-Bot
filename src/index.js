@@ -39,7 +39,7 @@ client.on('messageCreate', async (message) => {
     if (!command) return;
 
     try {
-        games = await command.execute(message, args, games) || games;
+        games = await command.execute(message, args, games, client) || games;
     } catch (error) {
         console.error(error);
         message.reply("There was an error trying to execute that command!");

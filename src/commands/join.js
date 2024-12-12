@@ -3,7 +3,7 @@ const { onGoingGameMessage, noOpponentSelectedMessage, opponentDoesNotExistsMess
 
 module.exports = {
     name: "join",
-    async execute(message, args, games) {
+    async execute(message, args, games, client) {
 
         if (!args[0]) {
             message.reply({ embeds: [noOpponentSelectedMessage] });
@@ -15,7 +15,10 @@ module.exports = {
             return;
         }
 
-        const opponent = message.channel.members.find(m => m.user.username === args[0])
+        const guild = client.guilds.resolve(message.guildId)
+        const members = await guild.members.fetch();
+        const opponent = members.find(member => member.user.username === args[0]);
+
         if (!opponent) {
             message.reply({ embeds: [opponentDoesNotExistsMessage] });
             return;
