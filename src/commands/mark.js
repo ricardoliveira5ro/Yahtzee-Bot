@@ -112,7 +112,7 @@ module.exports = {
         }
 
         // Multiple Yahtzee
-        if (rolledDice.filter(d => d === rolledDice[0]).length === 5 && 
+        if (games[index].rolledDice.filter(d => d === games[index].rolledDice[0]).length === 5 && 
             games[index].scores[targetPlayer][14] !== 0 && 
             games[index].scores[targetPlayer][14] !== -1)
         {
